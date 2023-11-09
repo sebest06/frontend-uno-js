@@ -36,13 +36,20 @@ function App() {
       socket.off("foo", onFooEvent);
     };
   }, []);
+  function handleButton() {
+    //console.log(socket.emit("HOLA", "DESDE LA FRONTEND"))
+    socket.emit("Hello","word")
+    console.log("GOLA")
+  }
 
   return (
     <>
       <h1>FrontEnd UNO!</h1>
       <div className="App">
-        <div>{isConnected}</div>
+        <div>{isConnected?"HOLA!!!":"NADA"}</div>
         <div>{fooEvents} </div>
+
+        <button onClick={handleButton}>ENVIAR HOLA</button>
       </div>
     </>
   );
