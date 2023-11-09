@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import "./App.css";
 
 import { io } from "socket.io-client";
+import NuevoGame from "./components/NuevoGame";
 
 // "undefined" means the URL will be computed from the `window.location` object
 const URL =
@@ -11,7 +12,8 @@ export const socket = io(URL);
 
 function App() {
   const [isConnected, setIsConnected] = useState(socket.connected);
-  const [fooEvents, setFooEvents] = useState([]);
+  const [players, setPlayers] = useState([]);
+  const [jugar, setJugar] = useState(false);
 
   useEffect(() => {
     function onConnect() {
@@ -22,34 +24,41 @@ function App() {
       setIsConnected(false);
     }
 
-    function onFooEvent(value) {
-      setFooEvents((previous) => [...previous, value]);
-    }
 
     socket.on("connect", onConnect);
     socket.on("disconnect", onDisconnect);
-    socket.on("foo", onFooEvent);
 
     return () => {
       socket.off("connect", onConnect);
       socket.off("disconnect", onDisconnect);
-      socket.off("foo", onFooEvent);
     };
   }, []);
   function handleButton() {
     //console.log(socket.emit("HOLA", "DESDE LA FRONTEND"))
-    socket.emit("Hello","word")
-    console.log("GOLA")
+    //socket.emit("Hello", "word")
+    //console.log("GOLA")
   }
+
+  useEffect(() => {
+    if (jugar && players.length > 1) {
+      socket.emit("game", "new",socket.id)
+    } else {
+      setJugar(false)
+    }
+  }, [jugar]); // Only re-run the effect if count changes
 
   return (
     <>
-      <h1>FrontEnd UNO!</h1>
+      <h1 className='text-red-500 uppercase font-bold p-3 text-4xl'>FrontEnd UNO!</h1>
       <div className="App">
-        <div>{isConnected?"HOLA!!!":"NADA"}</div>
-        <div>{fooEvents} </div>
+        <div>{isConnected ? "Conectado OK!!!" : "Falla Conexion"}</div>
 
-        <button onClick={handleButton}>ENVIAR HOLA</button>
+        {!jugar && <NuevoGame players={players} setPlayers={setPlayers} setJugar={setJugar}></NuevoGame>}
+
+        <button className="bg-indigo-600 w-full p-3
+         text-white uppercase font-bold
+          hover:bg-indigo-700 cursor-pointer 
+          transition-colors rounded-md" onClick={handleButton}>ENVIAR HOLA</button>
       </div>
     </>
   );
