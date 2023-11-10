@@ -3,6 +3,7 @@ import "./App.css";
 
 import { io } from "socket.io-client";
 import NuevoGame from "./components/NuevoGame";
+import Salon from "./components/Salon";
 
 // "undefined" means the URL will be computed from the `window.location` object
 const URL =
@@ -14,30 +15,39 @@ function App() {
   const [isConnected, setIsConnected] = useState(socket.connected);
   const [players, setPlayers] = useState([]);
   const [jugar, setJugar] = useState(false);
+  const [socketId, setSocketId] = useState("");
+
+  const [salones, setSalones] = useState([])
 
   useEffect(() => {
     function onConnect() {
       setIsConnected(true);
+      setSocketId(socket.id)
+      console.log("SE CARGO ID", socket.id)
+      socket.emit("getSesiones");
     }
 
     function onDisconnect() {
       setIsConnected(false);
+      setSocketId("")
+    }
+
+    function onAllSesiones(sesiones) {
+      console.log("AllSesiones",sesiones)
+      setSalones(sesiones)
+      
     }
 
 
     socket.on("connect", onConnect);
     socket.on("disconnect", onDisconnect);
+    socket.on("allSesiones", onAllSesiones);
 
     return () => {
       socket.off("connect", onConnect);
       socket.off("disconnect", onDisconnect);
     };
   }, []);
-  function handleButton() {
-    //console.log(socket.emit("HOLA", "DESDE LA FRONTEND"))
-    //socket.emit("Hello", "word")
-    //console.log("GOLA")
-  }
 
   useEffect(() => {
     if (jugar && players.length > 1) {
@@ -47,18 +57,16 @@ function App() {
     }
   }, [jugar]); // Only re-run the effect if count changes
 
+//{!jugar && <NuevoGame players={players} setPlayers={setPlayers} setJugar={setJugar}></NuevoGame>}
+
   return (
     <>
       <h1 className='text-red-500 uppercase font-bold p-3 text-4xl'>FrontEnd UNO!</h1>
       <div className="App">
         <div>{isConnected ? "Conectado OK!!!" : "Falla Conexion"}</div>
 
-        {!jugar && <NuevoGame players={players} setPlayers={setPlayers} setJugar={setJugar}></NuevoGame>}
-
-        <button className="bg-indigo-600 w-full p-3
-         text-white uppercase font-bold
-          hover:bg-indigo-700 cursor-pointer 
-          transition-colors rounded-md" onClick={handleButton}>ENVIAR HOLA</button>
+        {!jugar && <Salon socket={socket} socketId={socketId} salones={salones}></Salon>}
+        
       </div>
     </>
   );
