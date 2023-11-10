@@ -15,15 +15,14 @@ function App() {
   const [isConnected, setIsConnected] = useState(socket.connected);
   const [players, setPlayers] = useState([]);
   const [jugar, setJugar] = useState(false);
-  const [socketId, setSocketId] = useState("");
-
+  const [socketId, setSocketId] = useState("")
   const [salones, setSalones] = useState([])
+  const [unidoAlJuego, setUnidoAlJuego] = useState({gameId: 0})
 
   useEffect(() => {
     function onConnect() {
       setIsConnected(true);
       setSocketId(socket.id)
-      console.log("SE CARGO ID", socket.id)
       socket.emit("getSesiones");
     }
 
@@ -33,7 +32,6 @@ function App() {
     }
 
     function onAllSesiones(sesiones) {
-      console.log("AllSesiones",sesiones)
       setSalones(sesiones)
       
     }
@@ -65,7 +63,7 @@ function App() {
       <div className="App">
         <div>{isConnected ? "Conectado OK!!!" : "Falla Conexion"}</div>
 
-        {!jugar && <Salon socket={socket} socketId={socketId} salones={salones}></Salon>}
+        {unidoAlJuego && unidoAlJuego.gameId == 0 && <Salon socket={socket} socketId={socketId} salones={salones} setUnidoAlJuego={setUnidoAlJuego}></Salon>}
         
       </div>
     </>
