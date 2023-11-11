@@ -2,8 +2,9 @@ import { useState, useEffect } from "react";
 import "./App.css";
 
 import { io } from "socket.io-client";
-import NuevoGame from "./components/NuevoGame";
-import Salon from "./components/Salon";
+import Mesa from "./components/Mesa";
+import Game from "./components/Game";
+//import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 // "undefined" means the URL will be computed from the `window.location` object
 const URL =
@@ -13,33 +14,24 @@ export const socket = io(URL);
 
 function App() {
   const [isConnected, setIsConnected] = useState(socket.connected);
-  const [players, setPlayers] = useState([]);
-  const [jugar, setJugar] = useState(false);
-  const [socketId, setSocketId] = useState("")
-  const [salones, setSalones] = useState([])
-  const [unidoAlJuego, setUnidoAlJuego] = useState({gameId: 0})
+  const [typePlayer, setTypePlayer] = useState("none");
 
   useEffect(() => {
     function onConnect() {
       setIsConnected(true);
-      setSocketId(socket.id)
-      socket.emit("getSesiones");
     }
 
     function onDisconnect() {
       setIsConnected(false);
-      setSocketId("")
+      setTypePlayer("none")
     }
-
-    function onAllSesiones(sesiones) {
-      setSalones(sesiones)
-      
+    function onDisconnected() {
+      setTypePlayer("none")
     }
-
 
     socket.on("connect", onConnect);
     socket.on("disconnect", onDisconnect);
-    socket.on("allSesiones", onAllSesiones);
+    socket.on("disconnected", onDisconnected);
 
     return () => {
       socket.off("connect", onConnect);
@@ -47,24 +39,33 @@ function App() {
     };
   }, []);
 
-  useEffect(() => {
+  /*useEffect(() => {
     if (jugar && players.length > 1) {
-      socket.emit("game", "new",socket.id)
+      socket.emit("game", "new", socket.id);
     } else {
-      setJugar(false)
+      setJugar(false);
     }
-  }, [jugar]); // Only re-run the effect if count changes
+  }, [jugar]); // Only re-run the effect if count changes*/
 
-//{!jugar && <NuevoGame players={players} setPlayers={setPlayers} setJugar={setJugar}></NuevoGame>}
+  //{!jugar && <NuevoGame players={players} setPlayers={setPlayers} setJugar={setJugar}></NuevoGame>}
+  //{unidoAlJuego && unidoAlJuego.gameId == 0 && <Salon socket={socket} socketId={socketId} salones={salones} setUnidoAlJuego={setUnidoAlJuego}></Salon>}
 
+  /*
+          <Router>
+          <Routes>
+          <Route path="/" element={} />
+          </Routes>
+        </Router>
+
+  */
   return (
     <>
-      <h1 className='text-red-500 uppercase font-bold p-3 text-4xl'>FrontEnd UNO!</h1>
       <div className="App">
-        <div>{isConnected ? "Conectado OK!!!" : "Falla Conexion"}</div>
-
-        {unidoAlJuego && unidoAlJuego.gameId == 0 && <Salon socket={socket} socketId={socketId} salones={salones} setUnidoAlJuego={setUnidoAlJuego}></Salon>}
-        
+        <h1 className="text-red-500 uppercase font-bold p-3 text-4xl">
+          FrontEnd UNO! {isConnected ? "OK" : "ERROR"}
+        </h1>
+        <Mesa socket={socket} setTypePlayer={setTypePlayer} />
+        <Game socket={socket} typePlayer={typePlayer}/>
       </div>
     </>
   );
