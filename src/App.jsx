@@ -15,6 +15,7 @@ export const socket = io(URL);
 function App() {
   const [isConnected, setIsConnected] = useState(socket.connected);
   const [typePlayer, setTypePlayer] = useState("none");
+  const [code, setCode] = useState("")
 
   useEffect(() => {
     function onConnect() {
@@ -64,8 +65,8 @@ function App() {
         <h1 className="text-red-500 uppercase font-bold p-3 text-4xl">
           FrontEnd UNO! {isConnected ? "OK" : "ERROR"}
         </h1>
-        <Mesa socket={socket} setTypePlayer={setTypePlayer} />
-        <Game socket={socket} typePlayer={typePlayer}/>
+        <Mesa socket={socket} setTypePlayer={setTypePlayer} setCode={setCode} code={code}/>
+        <Game socket={socket} typePlayer={typePlayer} code={code}/>
       </div>
     </>
   );

@@ -1,13 +1,12 @@
 import React from "react";
 import Admin from "./Admin";
+import Play from "./Play";
 
-const Game = ({ socket, typePlayer }) => {
+const Game = ({ socket, typePlayer, code }) => {
   return (
     <>
       <div className="flex space-x-2">
-        {typePlayer != "none" && (
-          <div className="md:w-1/2 lg:w-1/2 mx-5">Game Panel</div>
-        )}
+        {typePlayer != "none" && <Play socket={socket} code={code} />}
         {typePlayer == "admin" && <Admin socket={socket} />}
       </div>
     </>

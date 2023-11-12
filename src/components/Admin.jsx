@@ -6,7 +6,6 @@ const Admin = ({ socket }) => {
   useEffect(() => {
     const getMesa = (payload) => {
       setPlayers(payload.players);
-      console.log(payload.players);
     };
 
     socket.on("getMesa", getMesa);
@@ -19,9 +18,13 @@ const Admin = ({ socket }) => {
     }
   };
 
+  const empezarJuegoUno = () => {
+    socket.emit("startGame")
+  }
+
   return (
     <>
-      <div className="md:w-1/2 lg:w-1/2 mx-5">
+      <div className="w-2/5">
         <div>
           <h2 className="font-black text-3xl text-center">Jugadores</h2>
         </div>
@@ -66,11 +69,10 @@ const Admin = ({ socket }) => {
                 {player.id != socket.id && (
                   <button
                     type="button"
-                    className="text-white bg-indigo-600 hover:bg-indigo-800 focus:ring-4 focus:outline-none focus:ring-indigo-300 font-medium rounded-lg text-sm p-1.5 text-center inline-flex items-center me-2 dark:bg-indigo-500 dark:hover:bg-indigo-700 dark:focus:ring-indigo-800"
                     onClick={() => BorrarPlayer(player.id)}
                   >
                     <svg
-                      className="w-4 h-4 text-white"
+                      className="w-4 h-4 "
                       aria-hidden="true"
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
@@ -98,7 +100,7 @@ const Admin = ({ socket }) => {
         <div>
           <button
             className="bg-indigo-600 rounded-md w-full m-2 p-3 text-white uppercase font-bold hover:bg-indigo-700 cursor-pointer transition-colors"
-            onClick={() => {}}
+            onClick={empezarJuegoUno}
           >
             Empezar UNO!
           </button>
