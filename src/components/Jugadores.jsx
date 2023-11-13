@@ -12,7 +12,7 @@ const Jugadores = ({ socket, code }) => {
       setTurno(payload.turno);
       setGanadores(payload.ganadores);
       setJugando(payload.jugando);
-      //console.log(payload.players)
+      console.log(payload.players)
     };
 
     socket.on("gameStatus", getGameStatus);
@@ -53,7 +53,7 @@ const Jugadores = ({ socket, code }) => {
         {jugadores.map((player, ix) => (
           <li
             key={ix}
-            className={`bg-slate-100 border-2 text-left w-full p-2 m-2 placeholder-gray-400 rounded-md ${player.saidUno ? "bg-orange-300" : ""}`}
+            className={`border-2 text-left w-full p-2 m-2 placeholder-gray-400 rounded-md ${player.saidUno == true ? "bg-orange-300" : "bg-slate-100"}`}
           >
             <div className="flex space-x-2">
               <div className={`w-full flex ${ix != turno.turno ? "px-4" : ""}`}>
