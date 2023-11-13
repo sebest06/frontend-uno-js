@@ -7,13 +7,13 @@ const Play = ({ socket, code }) => {
   const [jugando, setJugando] = useState(false);
   const [modal, setModal] = useState(false);
   const [indexCard, setIndexCard] = useState(0);
-
+  
   useEffect(() => {
     const getGameStatus = (payload) => {
       console.log(payload);
       setCartas(payload.cartas);
       setDescartes(payload.descarte.slice(0, 3).reverse());
-      setJugando(true);
+      setJugando(payload.jugando);
     };
 
     socket.on("gameStatus", getGameStatus);
