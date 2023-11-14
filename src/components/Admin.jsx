@@ -104,12 +104,7 @@ const Admin = ({ socket }) => {
           >
             Empezar UNO!
           </button>
-          <button
-            className="bg-indigo-600 rounded-md w-full m-2 p-3 text-white uppercase font-bold hover:bg-indigo-700 cursor-pointer transition-colors"
-            onClick={() => {}}
-          >
-            Pasar Turno
-          </button>
+          
         </div>
       </div>
     </>
