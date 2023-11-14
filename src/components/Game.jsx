@@ -7,10 +7,10 @@ import Header from "./Header";
 const Game = ({ socket, typePlayer, code }) => {
   return (
     <>
-      <div className="flex space-x-2">
-        {typePlayer != "none" && <Play socket={socket} code={code} />}
+      <div className="">
         {typePlayer == "admin" && <Header><Admin socket={socket} /></Header>
         }
+        {typePlayer != "none" && <Play socket={socket} code={code} />}
       </div>
       <div>{typePlayer != "none" && <Jugadores socket={socket} code={code} />}</div>
     </>
