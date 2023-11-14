@@ -108,17 +108,17 @@ const Play = ({ socket, code }) => {
             </div>
             <div className="flex flex-wrap">
               <div className={`h-5 w-5 ${comodin}`}></div>
-              <div className="px-2 py-2">
+              <div className="px-0.5">
                 <button
-                  className="bg-indigo-600 rounded-md w-full m-2 p-3 text-white uppercase font-bold hover:bg-indigo-700 cursor-pointer transition-colors"
+                  className="bg-indigo-600 rounded-md w-full m-0.5 p-3 text-white uppercase font-bold hover:bg-indigo-700 cursor-pointer transition-colors"
                   onClick={() => handleCartPasar()}
                 >
                   Pasar Turno
                 </button>
               </div>
-              <div className="px-2 py-2">
+              <div className="px-0.5">
                 <button
-                  className="bg-indigo-600 rounded-md w-full m-2 p-3 text-white uppercase font-bold hover:bg-indigo-700 cursor-pointer transition-colors"
+                  className="bg-indigo-600 rounded-md w-full m-0.5 p-3 text-white uppercase font-bold hover:bg-indigo-700 cursor-pointer transition-colors"
                   onClick={() => handleDecirUNO()}
                 >
                   Decir UNO!!
