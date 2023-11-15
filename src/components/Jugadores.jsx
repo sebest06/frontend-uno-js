@@ -39,7 +39,7 @@ const Jugadores = ({ socket, code }) => {
               className={`bg-slate-100 border-2 text-left w-full p-2 m-2 placeholder-gray-400 rounded-md`}
             >
               <div className="flex space-x-2">
-                <div className={`w-full flex ${ix != turno.turno ? "px-4" : ""}`}>
+                <div className={`w-full flex`}>
                   {(ix + 1).toString()} {player.nombre}
                 </div>
               </div>
@@ -60,7 +60,7 @@ const Jugadores = ({ socket, code }) => {
                 {ix == turno.turno && (
                   <>
                     <svg
-                      className="w-4 h-4 m-1 text-gray-800 dark:text-white "
+                      className="w-4 h-4 m-1 text-gray-800  "
                       aria-hidden="true"
                       xmlns="http://www.w3.org/2000/svg"
                       fill="currentColor"
@@ -75,7 +75,7 @@ const Jugadores = ({ socket, code }) => {
                   onClick={(e) => { handleReportarUno(ix) }}>
 
                   <svg
-                    className="w-4 h-4 m-1 text-gray-800 dark:text-white"
+                    className="w-4 h-4 m-1 text-gray-800"
                     aria-hidden="true"
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"

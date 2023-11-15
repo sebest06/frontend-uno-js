@@ -38,7 +38,7 @@ const Admin = ({ socket }) => {
                 <div className="w-full flex">
                   {player.role == "admin" && (
                     <svg
-                      className="m-1.5 w-4 h-4 text-gray-800 dark:text-white"
+                      className="m-1.5 w-4 h-4 text-gray-800"
                       aria-hidden="true"
                       viewBox="0 0 20 18"
                       fill="none"
