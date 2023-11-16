@@ -41,71 +41,80 @@ const Play = ({ socket, code }) => {
   }, []);
 
   const handleCart = (ix, color) => {
-    if (cartas[ix].color == "negro") {
-      if (color && color != undefined && color != "") {
+    if (jugando) {
+      if (cartas[ix].color == "negro") {
+        if (color && color != undefined && color != "") {
+          const objecto = {
+            cart_index: ix,
+            color: color,
+            valor: cartas[ix].valor,
+            code: code,
+          };
+          socket.emit("playCard", objecto);
+        } else {
+          setIndexCard(ix);
+          setModal(true);
+        }
+      } else {
         const objecto = {
           cart_index: ix,
-          color: color,
+          color: cartas[ix].color,
           valor: cartas[ix].valor,
           code: code,
         };
         socket.emit("playCard", objecto);
-      } else {
-        setIndexCard(ix);
-        setModal(true);
       }
-    } else {
-      const objecto = {
-        cart_index: ix,
-        color: cartas[ix].color,
-        valor: cartas[ix].valor,
-        code: code,
-      };
-      socket.emit("playCard", objecto);
     }
     //console.log("play", objecto);
   };
 
   const handleCartDorse = () => {
-    const objecto = {
-      code: code,
-    };
-    socket.emit("playPick", objecto);
+    if (jugando) {
+      const objecto = {
+        code: code,
+      };
+      socket.emit("playPick", objecto);
+    }
   };
 
   const handleCartPasar = () => {
-    const objecto = {
-      code: code,
-    };
-    socket.emit("playPass", objecto);
+    if (jugando) {
+      const objecto = {
+        code: code,
+      };
+      socket.emit("playPass", objecto);
+    }
   };
 
   const handleDecirUNO = () => {
-    const objecto = {
-      code: code,
-    };
-    socket.emit("playUNO", objecto);
+    if (jugando) {
+      const objecto = {
+        code: code,
+      };
+      socket.emit("playUNO", objecto);
+    }
   };
 
   return (
     <>
       <div className="w-full">
+
+        <div className="flex flex-wrap">
+          <div className="w-32 h-48" onClick={() => handleCartDorse()}>
+            <Carta color="dorso" valor="dorso"></Carta>
+          </div>
+          {descartes.map((cartas, ix) => (
+            <div key={ix} className="w-12 h-48" onClick={() => { }}>
+              <Carta
+                key={ix}
+                color={cartas.color}
+                valor={cartas.valor}
+              ></Carta>
+            </div>
+          ))}
+        </div>
         {jugando && (
           <>
-            <div className="flex flex-wrap">
-              <div className="w-32 h-48" onClick={() => handleCartDorse()}>
-                <Carta color="dorso" valor="dorso"></Carta>
-              </div>
-              {descartes.map((cartas, ix) => (
-                <div key={ix} className="w-12 h-48" onClick={() => { }}>
-                  <Carta
-                    key={ix}
-                    color={cartas.color}
-                    valor={cartas.valor}
-                  ></Carta>
-                </div>
-              ))}
-            </div>
             <div className="flex flex-wrap">
               <div className={`h-5 w-5 ${comodin}`}></div>
               <div className="px-0.5">

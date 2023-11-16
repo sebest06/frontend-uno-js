@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 
 const Admin = ({ socket }) => {
   const [players, setPlayers] = useState([]);
+  const [strikes, setStrikes] = useState(3);
 
   useEffect(() => {
     const getMesa = (payload) => {
@@ -19,7 +20,7 @@ const Admin = ({ socket }) => {
   };
 
   const empezarJuegoUno = () => {
-    socket.emit("startGame")
+    socket.emit("startGame", {strikes})
   }
 
   return (
@@ -98,6 +99,15 @@ const Admin = ({ socket }) => {
           <h2 className="font-black text-3xl text-center">Partida</h2>
         </div>
         <div>
+        <label htmlFor="strikes">Strikes</label>
+        <input
+              id="strikes"
+              className="border-2 w-full text-left justify-between p-2 m-2 placeholder-gray-400 rounded-md"
+              value={strikes}
+              placeholder="3"
+              type="number"
+              onChange={(e) => setStrikes(e.target.value)}
+            />
           <button
             className="bg-indigo-600 rounded-md w-full m-2 p-3 text-white uppercase font-bold hover:bg-indigo-700 cursor-pointer transition-colors"
             onClick={empezarJuegoUno}

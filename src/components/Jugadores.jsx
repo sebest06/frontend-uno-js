@@ -12,7 +12,6 @@ const Jugadores = ({ socket, code }) => {
       setTurno(payload.turno);
       setGanadores(payload.ganadores);
       setJugando(payload.jugando);
-      console.log(payload.players)
     };
 
     socket.on("gameStatus", getGameStatus);
@@ -28,6 +27,20 @@ const Jugadores = ({ socket, code }) => {
 
   }
 
+  const strikes = (n) => {
+
+    const icons = []
+
+    for (let i = 0; i < n; i++) {
+      icons.push(
+          <svg className="w-4 h-4 text-red-600 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 11.793a1 1 0 1 1-1.414 1.414L10 11.414l-2.293 2.293a1 1 0 0 1-1.414-1.414L8.586 10 6.293 7.707a1 1 0 0 1 1.414-1.414L10 8.586l2.293-2.293a1 1 0 0 1 1.414 1.414L11.414 10l2.293 2.293Z" />
+          </svg>
+      )
+    }
+    return icons
+  }
+
   return (
     <> {!jugando && (
       <>
@@ -40,7 +53,7 @@ const Jugadores = ({ socket, code }) => {
             >
               <div className="flex space-x-2">
                 <div className={`w-full flex`}>
-                  {(ix + 1).toString()} {player.nombre}
+                  {(ix + 1).toString()} {player.nombre} ({player.strikes})
                 </div>
               </div>
             </li>
@@ -90,6 +103,7 @@ const Jugadores = ({ socket, code }) => {
                     />
                   </svg>
                 </div>
+                {strikes(player.strikes)}
               </div>
             </div>
           </li>
