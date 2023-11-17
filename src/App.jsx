@@ -61,15 +61,13 @@ function App() {
   */
   return (
     <>
-    <html translate="no">
-      <div className="App">
+      <div className="App" translate="no">
         <h1 className="text-red-500 uppercase font-bold p-3 text-4xl">
           FrontEnd UNO! {isConnected ? "OK" : "ERROR"}
         </h1>
-        <Mesa socket={socket} setTypePlayer={setTypePlayer} setCode={setCode} code={code}/>
-        <Game socket={socket} typePlayer={typePlayer} code={code}/>
+        <Mesa socket={socket} setTypePlayer={setTypePlayer} setCode={setCode} code={code} />
+        <Game socket={socket} typePlayer={typePlayer} code={code} />
       </div>
-      </html>
     </>
   );
 }

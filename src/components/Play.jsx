@@ -8,13 +8,14 @@ const Play = ({ socket, code }) => {
   const [modal, setModal] = useState(false);
   const [indexCard, setIndexCard] = useState(0);
   const [comodin, setComodin] = useState("")
+  const [miturno, setMiTurno] = useState(false);
 
   useEffect(() => {
     const getGameStatus = (payload) => {
-      console.log(payload);
       setCartas(payload.cartas);
       setDescartes(payload.descarte.slice(0, 3).reverse());
       setJugando(payload.jugando);
+      setMiTurno(payload.miturno);
       if (payload.descarte[0].color == "negro") {
         switch (payload.comodin) {
           case "rojo":
@@ -100,7 +101,7 @@ const Play = ({ socket, code }) => {
       <div className="w-full">
 
         <div className="flex flex-wrap">
-          <div className="w-32 h-48" onClick={() => handleCartDorse()}>
+          <div className={`w-32 h-48 p-1.5 rounded-lg ${miturno?'bg-indigo-200':''}`} onClick={() => handleCartDorse()}>
             <Carta color="dorso" valor="dorso"></Carta>
           </div>
           {descartes.map((cartas, ix) => (
