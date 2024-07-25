@@ -10,12 +10,34 @@ import Game from "./components/Game";
 const URL =
   process.env.NODE_ENV === "production" ? "https://backend-uno-js-production.up.railway.app/" : "http://localhost:8080";
 
-export const socket = io(URL);
+//export const socket = io("http://192.168.0.4:8080");
 
 function App() {
-  const [isConnected, setIsConnected] = useState(socket.connected);
+  const [socket, setSocket] = useState(io(""));
+  const [isConnected, setIsConnected] = useState(false);
   const [typePlayer, setTypePlayer] = useState("none");
-  const [code, setCode] = useState("")
+  const [url, setUrl] = useState("");
+  const [code, setCode] = useState("");
+
+  const connectToSocket = () => {
+    if (socket) {
+      socket.disconnect();
+    }
+
+    const newSocket = io(url);
+
+    newSocket.on('connect', () => {
+      console.log('connected to server');
+      setIsConnected(true);
+    });
+
+    newSocket.on('disconnect', () => {
+      console.log('disconnected from server');
+      setIsConnected(false);
+    });
+
+    setSocket(newSocket);
+  };
 
   useEffect(() => {
     function onConnect() {
@@ -64,6 +86,20 @@ function App() {
       <div className="App" translate="no">
         <h1 className="text-red-500 uppercase font-bold p-3 text-4xl">
           FrontEnd UNO! {isConnected ? "OK" : "ERROR"}
+          {!isConnected &&
+          <div className="flex items-center space-x-2">
+            <input
+                        id="url"
+                        className="text-xs border-2 w-full text-left justify-between p-2 m-2 placeholder-gray-400 rounded-md"
+                        value={url}
+                        onChange={(e) => setUrl(e.target.value)}
+                        placeholder="Code"
+            />
+            <button 
+            className="text-xs bg-indigo-600 rounded-md m-2 p-3 text-white uppercase font-bold hover:bg-indigo-700 cursor-pointer transition-colors"
+            onClick={connectToSocket}>Connect</button>
+          </div>
+          }
         </h1>
         <Mesa socket={socket} setTypePlayer={setTypePlayer} setCode={setCode} code={code} />
         <Game socket={socket} typePlayer={typePlayer} code={code} />
