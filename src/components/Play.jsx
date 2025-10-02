@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import Carta from "./Carta";
 
-const Play = ({ socket, code }) => {
+const Play = ({ socket, code, rojo, verde, amarillo, azul}) => {
   const [cartas, setCartas] = useState([]);
   const [descartes, setDescartes] = useState([]);
   const [jugando, setJugando] = useState(false);
@@ -19,16 +19,16 @@ const Play = ({ socket, code }) => {
       if (payload.descarte[0].color == "negro") {
         switch (payload.comodin) {
           case "rojo":
-            setComodin("bg-red-500")
+            setComodin(rojo)
             break;
           case "amarillo":
-            setComodin("bg-yellow-500")
+            setComodin(amarillo)
             break;
           case "verde":
-            setComodin("bg-green-500")
+            setComodin(verde)
             break;
           case "azul":
-            setComodin("bg-blue-500")
+            setComodin(azul)
             break;
           default:
             setComodin("")
@@ -102,7 +102,10 @@ const Play = ({ socket, code }) => {
 
         <div className="flex flex-wrap">
           <div className={`w-32 h-48 p-1.5 rounded-lg ${miturno?'bg-indigo-200':''}`} onClick={() => handleCartDorse()}>
-            <Carta color="dorso" valor="dorso"></Carta>
+            <Carta color="dorso" valor="dorso" rojo={rojo}
+                    verde={verde}
+                    amarillo={amarillo}
+                    azul={azul}></Carta>
           </div>
           {descartes.map((cartas, ix) => (
             <div key={ix} className="w-12 h-48" onClick={() => { }}>
@@ -110,6 +113,10 @@ const Play = ({ socket, code }) => {
                 key={ix}
                 color={cartas.color}
                 valor={cartas.valor}
+                rojo={rojo}
+                verde={verde}
+                amarillo={amarillo}
+                azul={azul}
               ></Carta>
             </div>
           ))}
@@ -117,7 +124,7 @@ const Play = ({ socket, code }) => {
         {jugando && (
           <>
             <div className="flex flex-wrap">
-              <div className={`h-5 w-5 ${comodin}`}></div>
+              <div className={"h-5 w-5 "} style={{ backgroundColor: comodin }}></div>
               <div className="px-0.5">
                 <button
                   className="bg-indigo-600 rounded-md w-full m-0.5 p-3 text-white uppercase font-bold hover:bg-indigo-700 cursor-pointer transition-colors"
@@ -146,6 +153,10 @@ const Play = ({ socket, code }) => {
                     key={ix}
                     color={cartas.color}
                     valor={cartas.valor}
+                    rojo={rojo}
+                    verde={verde}
+                    amarillo={amarillo}
+                    azul={azul}
                   ></Carta>
                 </div>
               ))}
@@ -192,7 +203,8 @@ const Play = ({ socket, code }) => {
               <div className="p-4 md:p-5">
                 <form className="space-y-4" action="#">
                   <button
-                    className="bg-red-500 text-white active:bg-red-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                    className="text-white font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                    style={{ backgroundColor: rojo }}
                     type="button"
                     onClick={() => {
                       setModal(false);
@@ -202,7 +214,8 @@ const Play = ({ socket, code }) => {
                     Rojo
                   </button>
                   <button
-                    className="bg-yellow-500 text-white active:bg-yellow-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                    className="text-white font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                    style={{ backgroundColor: amarillo }}
                     type="button"
                     onClick={() => {
                       setModal(false);
@@ -212,7 +225,8 @@ const Play = ({ socket, code }) => {
                     Amarillo
                   </button>
                   <button
-                    className="bg-green-500 text-white active:bg-green-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                    className="text-white font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                    style={{ backgroundColor: verde }}
                     type="button"
                     onClick={() => {
                       setModal(false);
@@ -222,7 +236,8 @@ const Play = ({ socket, code }) => {
                     Verde
                   </button>
                   <button
-                    className="bg-blue-500 text-white active:bg-blue-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                    className="text-white font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                    style={{ backgroundColor: azul }}
                     type="button"
                     onClick={() => {
                       setModal(false);

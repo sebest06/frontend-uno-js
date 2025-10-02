@@ -5,7 +5,7 @@ const GREEN = "#5a5";
 const BLUE = "#55f";
 const BLACK = "#000";
 
-const Carta = ({ color, valor }) => {
+const Carta = ({ color, valor, rojo, verde, amarillo, azul }) => {
   const numero = [
     "m 12.609983,5.0439751 c -2.7859561,0 -5.0440171,2.2581306 -5.0440171,5.0440169 v 5.044017 c 0,2.785886 2.258061,5.044017 5.0440171,5.044017 2.785992,0 5.044052,-2.258131 5.044052,-5.044017 v -5.044017 c 0,-2.7858863 -2.25806,-5.0440169 -5.044052,-5.0440169 z m 0,2.5220084 c 1.392943,0 2.521973,1.1288889 2.521973,2.5220085 v 5.044017 c 0,1.392766 -1.12903,2.522008 -2.521973,2.522008 -1.393049,0 -2.522079,-1.129242 -2.522079,-2.522008 v -5.044017 c 0,-1.3931196 1.12903,-2.5220085 2.522079,-2.5220085 z",
     "M 12.610001,5.0439751 10.087992,7.5659835 V 10.592464 L 12.610001,8.0704557 V 20.176026 h 2.522008 V 5.0439751 Z",
@@ -71,18 +71,19 @@ const Carta = ({ color, valor }) => {
   let COLOR = "#0";
   let index = 0;
 
+  console.log("Color carta", color, rojo, verde, azul, amarillo);
   switch (color) {
     case "rojo":
-      COLOR = RED;
+      COLOR = rojo;
       break;
     case "verde":
-      COLOR = GREEN;
+      COLOR = verde;
       break;
     case "azul":
-      COLOR = BLUE;
+      COLOR = azul;
       break;
     case "amarillo":
-      COLOR = YELLOW;
+      COLOR = amarillo;
       break;
     case "negro":
       COLOR = BLACK;
