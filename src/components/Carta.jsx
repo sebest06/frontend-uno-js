@@ -71,7 +71,6 @@ const Carta = ({ color, valor, rojo, verde, amarillo, azul }) => {
   let COLOR = "#0";
   let index = 0;
 
-  console.log("Color carta", color, rojo, verde, azul, amarillo);
   switch (color) {
     case "rojo":
       COLOR = rojo;

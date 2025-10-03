@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 
 const Jugadores = ({ socket, code }) => {
-  const [jugando, setJugando] = useState(false);
   const [jugadores, setJugadores] = useState([]);
   const [ganadores, setGanadores] = useState([]);
   const [turno, setTurno] = useState({});
@@ -11,7 +10,6 @@ const Jugadores = ({ socket, code }) => {
       setJugadores(payload.players);
       setTurno(payload.turno);
       setGanadores(payload.ganadores);
-      setJugando(payload.jugando);
     };
 
     socket.on("gameStatus", getGameStatus);
@@ -41,25 +39,7 @@ const Jugadores = ({ socket, code }) => {
   }
 
   return (
-    <> {!jugando && (
-      <>
-        <h1 className="mt-16 text-red-500 uppercase font-bold p-3 text-4xl"> Listado de Ganadores </h1>
-        <ul className="bg-white shadow-md rounded-lg py-10 px-5 mb-10">
-          {ganadores.map((player, ix) => (
-            <li
-              key={ix}
-              className={`bg-slate-100 border-2 text-left w-full p-2 m-2 placeholder-gray-400 rounded-md`}
-            >
-              <div className="flex space-x-2">
-                <div className={`w-full flex`}>
-                  {(ix + 1).toString()} {player.nombre} ({player.strikes})
-                </div>
-              </div>
-            </li>
-          ))}
-        </ul>
-      </>
-    )}
+    <> 
       <h1 className="mt-16"> Listado de jugadores </h1>
       <ul className="bg-white shadow-md rounded-lg py-10 px-5 mb-10">
         {jugadores.map((player, ix) => (
@@ -108,7 +88,21 @@ const Jugadores = ({ socket, code }) => {
           </li>
         ))}
       </ul>
-
+        <h1 className="mt-16 text-red-500 uppercase font-bold p-3 text-4xl"> Listado de Ganadores! </h1>
+        <ul className="bg-white shadow-md rounded-lg py-10 px-5 mb-10">
+          {ganadores.map((player, ix) => (
+            <li
+              key={ix}
+              className={`bg-slate-100 border-2 text-left w-full p-2 m-2 placeholder-gray-400 rounded-md`}
+            >
+              <div className="flex space-x-2">
+                <div className={`w-full flex`}>
+                  {(ix + 1).toString()} {player.nombre}
+                </div>
+              </div>
+            </li>
+          ))}
+        </ul>
     </>
   );
 };
