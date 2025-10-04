@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import "./App.css";
 
 import { io } from "socket.io-client";
-import { CompactPicker } from 'react-color';
 import Mesa from "./components/Mesa";
 import Game from "./components/Game";
 //import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
